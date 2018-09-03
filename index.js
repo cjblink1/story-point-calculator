@@ -72,7 +72,6 @@ function generateStoryPointBreakdown(issues) {
     });
     breakdown += '---------------------------------\n';
     const total = entries.reduce((acc, val) => acc + val[1] ,0)
-    console.log(properties.teamSize)
     const format = '%20s';
     breakdown += sprintf(total < properties.teamSize * 3 ? format.yellow : format.green, 'Total');
     breakdown += sprintf(': %d\n', total)
