@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const os = require('os')
+const os = require('os');
+const colors = require('colors');
 const sprintf = require('sprintf-js').sprintf;
 const properties = require(path.resolve(os.homedir(), '.sp/properties.json'));
 const request = require('request').defaults({
@@ -65,10 +66,16 @@ function generateStoryPointBreakdown(issues) {
     var breakdown = `${properties.milestoneName}\n\n`;
     const entries = Array.from(spMap.entries()).sort((a,b) => b[1] - a[1]);
     entries.forEach(entry => {
-        breakdown += sprintf('%20s: %d\n', entry[0], entry[1]);
+        const format = '%20s';
+        breakdown += sprintf(entry[1] < 3 && entry[0] != 'unassigned' ? format.red : format, entry[0]);
+        breakdown += sprintf(': %d\n', entry[1]);
     });
     breakdown += '---------------------------------\n';
-    breakdown += sprintf('%20s: %d\n', 'Total', entries.reduce((acc, val) => acc + val[1] ,0));
+    const total = entries.reduce((acc, val) => acc + val[1] ,0)
+    console.log(properties.teamSize)
+    const format = '%20s';
+    breakdown += sprintf(total < properties.teamSize * 3 ? format.yellow : format.green, 'Total');
+    breakdown += sprintf(': %d\n', total)
     return breakdown;
 }
 
