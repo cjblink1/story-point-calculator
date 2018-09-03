@@ -20,5 +20,8 @@
     "request": "^2.88.0",
     "requests": "^0.2.2",
     "sprintf-js": "^1.1.1"
+  },
+  "bin":{
+    "sp": "index.js"
   }
 }

@@ -9,7 +9,7 @@ const request = require('request').defaults({
 });
 
 function getGroupId(groupName, callback) {
-    request(`/groups?search=${properties.groupName}`, (err, res, groups) => {
+    request(`/groups?search=${groupName}`, (err, res, groups) => {
         callback(groups[0].id);
     })
 }
@@ -38,6 +38,17 @@ function getAssignee(issue) {
     return issue.assignee ? issue.assignee.name : 'unassigned';
 } 
 
+function generateIssueBreakdown(issues) {
+    var breakdown = "";
+    breakdown += `Issues for ${properties.milestoneName}:\n\n`
+    issues.forEach(issue => {
+        breakdown += `${getTitle(issue)}\n`;
+        breakdown += `Story Points: ${getStoryPoints(issue)}\n`;
+        breakdown += `Assignee: ${getAssignee(issue)}\n\n`;
+    });
+    return breakdown;
+}
+
 function generateStoryPointBreakdown(issues) {
     let spMap = new Map()
     issues.forEach(issue => {
@@ -48,30 +59,27 @@ function generateStoryPointBreakdown(issues) {
         }
         spMap.set(getAssignee(issue), assigneeSp + issueSp)
     });
-    var breakdown = "";
+    var breakdown = `${properties.milestoneName}\n\n`;
     const entries = Array.from(spMap.entries()).sort((a,b) => b[1] - a[1]);
     entries.forEach(entry => {
         breakdown += sprintf('%20s: %d\n', entry[0], entry[1]);
     });
+    breakdown += '---------------------------------\n';
+    breakdown += sprintf('%20s: %d\n', 'Total', entries.reduce((acc, val) => acc + val[1] ,0));
     return breakdown;
 }
 
-function produceReport(issues) {
-    var report = ""
-    report += `Issues for ${properties.milestoneName}:\n\n`
-    issues.forEach(issue => {
-        report += `${getTitle(issue)}\n`;
-        report += `Story Points: ${getStoryPoints(issue)}\n`;
-        report += `Assignee: ${getAssignee(issue)}\n\n`;
-    });
-    report += '---------------------------------\n'
-    report += generateStoryPointBreakdown(issues)
-    console.log(report);
+function producebreakdown(issues) {
+    var breakdown = ""
+    // breakdown = generateIssueBreakdown(issues);
+    breakdown += '---------------------------------\n';
+    breakdown += generateStoryPointBreakdown(issues);
+    console.log(breakdown);
 }
 
 getGroupId(properties.groupName, groupId => {
     getMilestoneId(groupId, properties.milestoneName, milestoneId => {
-        getIssues(groupId, milestoneId, produceReport)
+        getIssues(groupId, milestoneId, producebreakdown)
     })
 })
 
