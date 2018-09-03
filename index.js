@@ -1,6 +1,9 @@
+#!/usr/bin/env node
 
+const path = require('path');
+const os = require('os')
 const sprintf = require('sprintf-js').sprintf;
-const properties = require('./properties.json');
+const properties = require(path.resolve(os.homedir(), '.sp/properties.json'));
 const request = require('request').defaults({
     headers: {'Private-Token': properties.accessToken},
     baseUrl: properties.baseUrl,
