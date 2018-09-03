@@ -1,0 +1,24 @@
+{
+  "name": "story-point-calculator",
+  "version": "0.0.1",
+  "description": "A calculator for story points using Gitlab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjblink1/story-point-calculator.git"
+  },
+  "author": "Connor Boyle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjblink1/story-point-calculator/issues"
+  },
+  "homepage": "https://github.com/cjblink1/story-point-calculator#readme",
+  "dependencies": {
+    "request": "^2.88.0",
+    "requests": "^0.2.2",
+    "sprintf-js": "^1.1.1"
+  }
+}
