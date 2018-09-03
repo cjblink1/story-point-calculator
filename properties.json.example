@@ -2,5 +2,6 @@
     "accessToken": "<ACCESS-TOKEN>",
     "groupName": "<GROUP-NAME>",
     "milestoneName": "<MILESTONE-NAME>",
-    "baseUrl": "<BASE_URL>"
+    "baseUrl": "<BASE_URL>",
+    "teamSize": 9
 }
