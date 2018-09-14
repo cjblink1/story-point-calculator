@@ -1,6 +1,6 @@
 {
   "name": "story-point-calculator",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A calculator for story points using Gitlab",
   "main": "index.js",
   "scripts": {
