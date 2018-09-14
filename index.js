@@ -25,7 +25,7 @@ function getMilestoneId(groupId, milestoneName, callback) {
 }
 
 function getIssues(groupId, milestoneId, callback) {
-    request(`/groups/${groupId}/milestones/${milestoneId}/issues?scope=all`, (err, res, issues) => {
+    request(`/groups/${groupId}/milestones/${milestoneId}/issues?per_page=100`, (err, res, issues) => {
         callback(issues)
     })
 }
