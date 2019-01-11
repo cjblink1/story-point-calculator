@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const https = require('https');
 const path = require('path');
 const os = require('os');
 const colors = require('colors');
@@ -86,9 +86,18 @@ function producebreakdown(issues) {
     console.log(breakdown);
 }
 
-getGroupId(properties.groupName, groupId => {
-    getMilestoneId(groupId, properties.milestoneName, milestoneId => {
-        getIssues(groupId, milestoneId, producebreakdown)
-    })
-})
+https.get(properties.baseUrl, function (res) {
+    getGroupId(properties.groupName, groupId => {     
+      getMilestoneId(groupId, properties.milestoneName, milestoneId => {
+            getIssues(groupId, milestoneId, producebreakdown)
+        })
+      })
+    }).on('error', function(e) {
+        var errorMessage = '\n';
+        errorMessage += '----------------------------------------------\n';
+        errorMessage += `GitLab: ${properties.baseUrl}\n`
+        errorMessage +='seems to be down, please try again later\n';
+        errorMessage += '----------------------------------------------\n';
 
+        console.log(errorMessage);
+})
